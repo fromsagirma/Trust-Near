@@ -1,0 +1,26 @@
+@startuml
+package "Client Applications" {
+  [User Mobile App] as UserApp
+  [Business Owner Web] as OwnerWeb
+  [Admin Web] as AdminWeb
+}
+
+package "Backend API Service" {
+  [Express HTTP API Server] as Server
+  [Auth & Core Modules] as CoreDev
+  [Platform & AI Modules] as PlatformDev
+}
+
+database "PostgreSQL Database" {
+  [Prisma ORM] as DB
+}
+
+UserApp --> Server : REST API
+OwnerWeb --> Server : REST API
+AdminWeb --> Server : REST API
+
+Server --> CoreDev
+Server --> PlatformDev
+CoreDev --> DB
+PlatformDev --> DB
+@enduml

@@ -1,0 +1,59 @@
+name: user_app
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # State management
+  flutter_riverpod: ^2.5.1
+
+  # Networking
+  dio: ^5.4.3
+
+  # Routing
+  go_router: ^14.2.0
+
+  # Location
+  geolocator: ^12.0.0
+
+  # Storage
+  flutter_secure_storage: ^9.2.2
+  shared_preferences: ^2.2.3
+
+  # Images
+  cached_network_image: ^3.3.1
+
+  # Utilities
+  url_launcher: ^6.3.0
+  image_picker: ^1.1.2
+
+  # Connectivity
+  connectivity_plus: ^6.0.3
+  google_fonts: ^8.2.1
+  http: ^1.6.0
+
+dependency_overrides:
+  path_provider_android: 2.2.17
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+
+flutter:
+  uses-material-design: true
