@@ -1,0 +1,588 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface-100 text-slate-900 font-sans antialiased transition-colors duration-200;
+  }
+
+  .dark body,
+  html.dark body {
+    @apply bg-slate-950 text-slate-100;
+  }
+
+  h1, h2, h3 {
+    @apply font-display;
+  }
+
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-emerald-500;
+  }
+}
+
+@layer components {
+  /* Form elements */
+  .input {
+    @apply rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-emerald-500/60 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500;
+  }
+
+  .select {
+    @apply rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-800 outline-none focus:border-emerald-500/60 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100;
+  }
+
+  .form-label {
+    @apply block text-xs font-semibold text-slate-700 mb-1 dark:text-slate-300;
+  }
+
+  .form-group {
+    @apply space-y-1;
+  }
+
+  .form-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-4;
+  }
+
+  .textarea {
+    @apply w-full rounded-md border border-slate-200 bg-white p-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-emerald-500/60 font-sans dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500;
+  }
+
+  .role-select {
+    @apply text-xs font-semibold rounded border border-slate-200 bg-surface-50 px-2 py-1 outline-none focus:border-emerald-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200;
+  }
+
+  /* Page shell (Layout.jsx) */
+  .app {
+    @apply flex min-h-screen bg-surface-100 dark:bg-slate-950 transition-colors duration-200;
+  }
+  .main {
+    @apply flex-1 flex flex-col;
+  }
+  .main-content {
+    @apply p-8 space-y-6 max-w-6xl w-full mx-auto;
+  }
+
+  /* Sidebar (Sidebar.jsx) */
+  .sidebar {
+    @apply flex h-screen w-64 flex-col justify-between border-r border-slate-200 bg-surface-50 sticky top-0 shrink-0 dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200;
+  }
+  .brand {
+    @apply flex items-center gap-3 px-5 py-5;
+  }
+  .brand-mark {
+    @apply flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-sky-500 font-display text-sm font-semibold text-white;
+  }
+  .brand-name {
+    @apply font-display text-base leading-tight text-slate-900 dark:text-white;
+  }
+  .brand-subtitle {
+    @apply text-xs leading-tight text-slate-500 dark:text-slate-400;
+  }
+  .role-card {
+    @apply mx-4 mb-5 rounded-lg border border-emerald-500/25 bg-emerald-50 px-3 py-2.5 dark:bg-emerald-950/40 dark:border-emerald-800/40;
+  }
+  .role-title {
+    @apply flex items-center gap-2 text-sm font-medium text-emerald-700 dark:text-emerald-400;
+  }
+  .role-desc {
+    @apply mt-0.5 text-xs text-emerald-700/70 dark:text-emerald-400/70;
+  }
+  .nav-label {
+    @apply px-5 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500;
+  }
+  .nav {
+    @apply flex flex-col gap-0.5 px-3;
+  }
+  .nav-link {
+    @apply flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-200;
+  }
+  .nav-link.active {
+    @apply bg-emerald-50 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300;
+  }
+  .sidebar-footer {
+    @apply flex items-center gap-3 border-t border-slate-200 px-5 py-4 dark:border-slate-800;
+  }
+  .sidebar-footer-btn {
+    @apply flex items-center gap-3 border-t border-slate-200 px-5 py-4 hover:bg-slate-100 transition-colors cursor-pointer text-left w-full dark:border-slate-800 dark:hover:bg-slate-800/70;
+  }
+  .sidebar-footer-btn.active {
+    @apply bg-emerald-50 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300;
+  }
+  .avatar {
+    @apply flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-sm font-semibold text-emerald-700 shrink-0 dark:bg-emerald-950 dark:text-emerald-400;
+  }
+  .avatar-img {
+    @apply h-8 w-8 rounded-full object-cover shrink-0 border border-emerald-500/40;
+  }
+  .user-info {
+    @apply leading-tight overflow-hidden;
+  }
+  .user-name {
+    @apply text-sm text-slate-800 font-medium truncate dark:text-slate-200;
+  }
+  .user-email {
+    @apply text-xs text-slate-500 truncate dark:text-slate-400;
+  }
+
+  /* Header (Header.jsx) */
+  .topbar {
+    @apply flex items-center justify-between border-b border-slate-200 bg-surface-50 px-8 py-5 sticky top-0 z-10 dark:bg-slate-900/90 dark:border-slate-800 backdrop-blur-sm transition-colors duration-200;
+  }
+  .topbar-left {
+    @apply flex items-center gap-3;
+  }
+  .topbar-icon {
+    @apply flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-slate-800 dark:text-emerald-400;
+  }
+  .page-title {
+    @apply font-display text-xl text-slate-900 dark:text-white;
+  }
+  .page-subtitle {
+    @apply text-sm text-slate-500 dark:text-slate-400;
+  }
+  .topbar-right {
+    @apply flex items-center gap-3 relative;
+  }
+  .search {
+    @apply relative;
+  }
+  .search-icon {
+    @apply pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500;
+  }
+  .search-input {
+    @apply w-72 rounded-md border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-emerald-500/50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500;
+  }
+  .role-badge {
+    @apply flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300;
+  }
+  .role-icon {
+    @apply text-emerald-600 dark:text-emerald-400;
+  }
+  .theme-toggle-btn {
+    @apply p-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors flex items-center justify-center shrink-0 cursor-pointer;
+  }
+  .notif-btn {
+    @apply relative p-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors flex items-center justify-center shrink-0 cursor-pointer;
+  }
+  .notif-badge {
+    @apply absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white rounded-full text-[10px] font-bold flex items-center justify-center;
+  }
+  .notif-dropdown {
+    @apply absolute right-0 top-12 w-80 rounded-xl border border-slate-200 bg-white shadow-xl p-3 space-y-2 z-50 dark:bg-slate-900 dark:border-slate-800;
+  }
+  .notif-item {
+    @apply p-2.5 rounded-lg border border-slate-100 bg-surface-50 hover:bg-emerald-50/50 transition-colors flex items-start gap-2.5 dark:bg-slate-800/60 dark:border-slate-800 dark:hover:bg-slate-800 text-left w-full cursor-pointer;
+  }
+
+  /* Grid Layouts */
+  .grid-4 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4;
+  }
+  .grid-3 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5;
+  }
+  .grid-2 {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
+  }
+
+  /* Metric Cards */
+  .kpi-card {
+    @apply rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex items-center justify-between dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200;
+  }
+  .kpi-label {
+    @apply text-xs font-semibold text-slate-500 dark:text-slate-400;
+  }
+  .kpi-value {
+    @apply text-2xl font-bold text-slate-900 mt-1 dark:text-white;
+  }
+  .kpi-sub {
+    @apply text-[11px] text-emerald-600 font-medium mt-0.5 dark:text-emerald-400;
+  }
+  .kpi-icon-box {
+    @apply p-3 rounded-lg flex items-center justify-center;
+  }
+
+  /* Card Containers */
+  .section-card {
+    @apply rounded-xl border border-slate-200 bg-white p-6 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200;
+  }
+  .section-header {
+    @apply flex items-center justify-between border-b border-slate-100 pb-3 gap-3 dark:border-slate-800;
+  }
+  .section-title {
+    @apply font-display text-base font-semibold text-slate-900 flex items-center gap-2 dark:text-white;
+  }
+  .section-subtitle {
+    @apply text-xs text-slate-500 dark:text-slate-400;
+  }
+
+  /* Tab Filters */
+  .filter-bar {
+    @apply flex items-center gap-2 border-b border-slate-200 pb-3 dark:border-slate-800;
+  }
+  .tab-btn {
+    @apply px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors;
+  }
+  .tab-btn-active {
+    @apply bg-emerald-600 text-white shadow-sm;
+  }
+  .tab-btn-inactive {
+    @apply bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-400 dark:border-slate-800 dark:hover:bg-slate-800;
+  }
+
+  /* List Queue Items */
+  .queue-list {
+    @apply space-y-3;
+  }
+  .queue-item {
+    @apply rounded-lg border border-slate-200 bg-surface-50 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors hover:border-slate-300 dark:bg-slate-800/60 dark:border-slate-700/60 dark:hover:border-slate-600;
+  }
+  .queue-info {
+    @apply space-y-1 flex-1;
+  }
+  .queue-name {
+    @apply font-semibold text-sm text-slate-900 flex items-center gap-2 dark:text-white;
+  }
+  .queue-badge {
+    @apply px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300;
+  }
+  .queue-landmark {
+    @apply text-xs text-emerald-700 flex items-center gap-1.5 font-medium dark:text-emerald-400;
+  }
+  .queue-meta {
+    @apply text-[11px] text-slate-500 dark:text-slate-400;
+  }
+
+  /* Action Rows & Buttons */
+  .action-row {
+    @apply flex items-center gap-2;
+  }
+  .row-between {
+    @apply flex items-center justify-between;
+  }
+  .btn-approve {
+    @apply px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-md shadow-sm transition-colors flex items-center gap-1 shrink-0 cursor-pointer;
+  }
+  .btn-reject {
+    @apply px-3.5 py-1.5 bg-white hover:bg-rose-50 text-rose-600 border border-rose-200 text-xs font-semibold rounded-md transition-colors flex items-center gap-1 shrink-0 dark:bg-slate-800 dark:border-rose-900/50 dark:hover:bg-rose-950/30 cursor-pointer;
+  }
+  .btn-secondary {
+    @apply px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-md transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 cursor-pointer;
+  }
+  .btn-primary {
+    @apply px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-md shadow-sm transition-colors flex items-center gap-1.5 cursor-pointer;
+  }
+  .btn-danger {
+    @apply px-4 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded-md shadow-sm transition-colors cursor-pointer;
+  }
+  .btn-link-action {
+    @apply text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition-colors dark:text-emerald-400;
+  }
+  .btn-link-danger {
+    @apply text-xs font-semibold text-rose-600 hover:text-rose-700 transition-colors dark:text-rose-400;
+  }
+  .btn-icon-delete {
+    @apply text-slate-400 hover:text-rose-600 transition-colors p-1 dark:hover:text-rose-400 cursor-pointer;
+  }
+
+  /* Status Badges */
+  .status-approved {
+    @apply inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300;
+  }
+  .status-rejected {
+    @apply inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-semibold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300;
+  }
+  .status-pending {
+    @apply inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-semibold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    @apply fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50;
+  }
+  .modal-card {
+    @apply bg-white border border-slate-200 rounded-xl max-w-md w-full p-6 shadow-xl space-y-4 dark:bg-slate-900 dark:border-slate-800;
+  }
+  .modal-title {
+    @apply font-display text-base font-bold text-slate-900 dark:text-white;
+  }
+  .modal-body {
+    @apply space-y-3 py-2 text-xs;
+  }
+  .modal-grid {
+    @apply grid grid-cols-2 gap-3;
+  }
+  .modal-actions {
+    @apply flex items-center justify-end gap-2 pt-2;
+  }
+
+  /* Empty State */
+  .empty-box {
+    @apply text-center py-12 bg-surface-50 border border-dashed border-slate-200 rounded-xl text-xs text-slate-500 space-y-2 dark:bg-slate-900/50 dark:border-slate-800 dark:text-slate-400;
+  }
+
+  /* KPI Icon Variants */
+  .kpi-icon-blue  { @apply kpi-icon-box bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400; }
+  .kpi-icon-green { @apply kpi-icon-box bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400; }
+  .kpi-icon-sky   { @apply kpi-icon-box bg-sky-50 text-sky-600 dark:bg-sky-950/60 dark:text-sky-400; }
+  .kpi-icon-amber { @apply kpi-icon-box bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400; }
+  .kpi-amber      { @apply text-amber-600 dark:text-amber-400; }
+  .kpi-sub-amber  { @apply text-[11px] text-amber-600 font-medium mt-0.5 dark:text-amber-400; }
+
+  /* Links & Text Utilities */
+  .view-all-link {
+    @apply text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 dark:text-emerald-400 dark:hover:text-emerald-300;
+  }
+  .badge-type-rose {
+    @apply px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300;
+  }
+  .badge-type-amber {
+    @apply px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300;
+  }
+  .badge-unclaimed {
+    @apply text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded dark:bg-slate-800 dark:text-slate-400;
+  }
+  .results-header {
+    @apply flex items-center justify-between text-xs text-slate-500 font-medium px-1 dark:text-slate-400;
+  }
+  .rating-badge {
+    @apply text-sm font-bold text-amber-600 flex items-center gap-1 justify-end;
+  }
+  .excerpt-text {
+    @apply text-xs text-slate-600 italic dark:text-slate-300;
+  }
+  .text-mono {
+    @apply font-mono text-[11px] text-slate-400 dark:text-slate-500;
+  }
+
+  /* Notices */
+  .notice-green {
+    @apply rounded-lg border border-emerald-500/25 bg-emerald-50 p-4 flex items-center justify-between gap-4 dark:bg-emerald-950/30 dark:border-emerald-800/40;
+  }
+  .notice-sky {
+    @apply rounded-lg border border-sky-200 bg-sky-50 p-4 flex items-center justify-between gap-4 dark:bg-sky-950/30 dark:border-sky-800/40;
+  }
+  .notice-rose {
+    @apply rounded-lg border border-rose-200 bg-rose-50 p-4 flex items-center justify-between gap-4 dark:bg-rose-950/30 dark:border-rose-800/40;
+  }
+  .notice-left {
+    @apply flex items-center gap-3;
+  }
+  .notice-title-green {
+    @apply text-xs font-semibold text-emerald-800 dark:text-emerald-300;
+  }
+  .notice-desc-green {
+    @apply text-xs text-emerald-700/80 dark:text-emerald-400/80;
+  }
+  .notice-title-sky {
+    @apply text-xs font-semibold text-sky-900 dark:text-sky-300;
+  }
+  .notice-desc-sky {
+    @apply text-xs text-sky-700 dark:text-sky-400/80;
+  }
+  .notice-title-rose {
+    @apply text-xs font-semibold text-rose-900 dark:text-rose-300;
+  }
+  .notice-desc-rose {
+    @apply text-xs text-rose-700 dark:text-rose-400/80;
+  }
+  .badge-autopublish {
+    @apply px-2.5 py-1 rounded-md text-[11px] font-bold uppercase bg-emerald-100 text-emerald-800 shrink-0 dark:bg-emerald-950 dark:text-emerald-300;
+  }
+  .badge-notice-sky {
+    @apply px-2.5 py-1 rounded-md text-[11px] font-bold uppercase bg-sky-100 text-sky-800 shrink-0 dark:bg-sky-950 dark:text-sky-300;
+  }
+  .badge-notice-rose {
+    @apply px-2.5 py-1 rounded-md text-[11px] font-bold uppercase bg-rose-100 text-rose-800 shrink-0 dark:bg-rose-950 dark:text-rose-300;
+  }
+
+  /* Listing rows */
+  .listing-row {
+    @apply rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5 dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200;
+  }
+  .listing-info {
+    @apply space-y-2 flex-1;
+  }
+  .listing-landmark {
+    @apply text-xs text-emerald-700 flex items-center gap-1.5 font-medium dark:text-emerald-400;
+  }
+  .listing-submitter {
+    @apply text-[11px] text-slate-500 dark:text-slate-400;
+  }
+  .rejection-note {
+    @apply p-2.5 bg-rose-50 border border-rose-200 rounded-md text-xs text-rose-800 dark:bg-rose-950/40 dark:border-rose-900/50 dark:text-rose-300;
+  }
+
+  /* Tables */
+  .table-container {
+    @apply w-full overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200;
+  }
+  .admin-table {
+    @apply w-full text-left text-xs text-slate-700 border-collapse dark:text-slate-300;
+  }
+  .table-th {
+    @apply px-4 py-3 bg-surface-50 font-semibold text-slate-900 border-b border-slate-200 uppercase tracking-wider text-[10px] dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300;
+  }
+  .table-th-right {
+    @apply table-th text-right;
+  }
+  .table-td {
+    @apply px-4 py-3.5 border-b border-slate-100 align-middle dark:border-slate-800/70;
+  }
+  .table-row {
+    @apply hover:bg-surface-50/70 transition-colors dark:hover:bg-slate-800/40;
+  }
+  .table-empty {
+    @apply py-12 text-center text-slate-400 text-xs;
+  }
+
+  /* Role Badges */
+  .badge-admin {
+    @apply px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300;
+  }
+  .badge-owner {
+    @apply px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300;
+  }
+  .badge-consumer {
+    @apply px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300;
+  }
+  .badge-active {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300;
+  }
+  .badge-banned {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300;
+  }
+
+  /* Profile & Settings Components */
+  .profile-header {
+    @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5;
+  }
+  .profile-avatar-row {
+    @apply flex items-center gap-4;
+  }
+  .profile-avatar-lg {
+    @apply w-16 h-16 rounded-full object-cover border-2 border-emerald-500/40;
+  }
+  .profile-avatar-fallback {
+    @apply w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-display text-2xl font-bold flex items-center justify-center;
+  }
+  .theme-box {
+    @apply flex items-center gap-3 bg-surface-50 dark:bg-slate-800/60 p-3 rounded-lg border border-slate-200 dark:border-slate-700;
+  }
+  .theme-btn-active {
+    @apply px-3 py-1.5 rounded-md text-xs font-semibold bg-emerald-600 text-white shadow-sm flex items-center gap-1.5;
+  }
+  .theme-btn-inactive {
+    @apply px-3 py-1.5 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-1.5;
+  }
+  .alert-success {
+    @apply p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/40 rounded-lg text-xs font-medium text-emerald-800 dark:text-emerald-300 flex items-center gap-2;
+  }
+  .alert-error {
+    @apply p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 rounded-lg text-xs font-medium text-rose-800 dark:text-rose-300 flex items-center gap-2;
+  }
+
+  /* Category Cards */
+  .cat-card {
+    @apply rounded-xl border border-slate-200 bg-white p-5 shadow-sm space-y-3 hover:border-slate-300 transition-colors dark:bg-slate-900 dark:border-slate-800 dark:hover:border-slate-700;
+  }
+  .cat-header {
+    @apply flex items-start justify-between gap-3;
+  }
+  .cat-icon-box {
+    @apply w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-display font-bold text-sm shrink-0 dark:bg-slate-800 dark:text-emerald-400;
+  }
+  .cat-title {
+    @apply font-display text-sm font-bold text-slate-900 dark:text-white;
+  }
+  .cat-slug {
+    @apply text-[11px] text-slate-400 font-mono dark:text-slate-500;
+  }
+  .cat-desc {
+    @apply text-xs text-slate-600 line-clamp-2 dark:text-slate-400;
+  }
+  .cat-footer {
+    @apply flex items-center justify-between border-t border-slate-100 pt-3 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400;
+  }
+
+  /* Claims Cards & Proof */
+  .claim-card {
+    @apply rounded-xl border border-slate-200 bg-white p-5 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200;
+  }
+  .claim-card-header {
+    @apply flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3 dark:border-slate-800;
+  }
+  .claim-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-3 bg-surface-50 p-3.5 rounded-lg border border-slate-200 text-xs dark:bg-slate-800/50 dark:border-slate-800 dark:text-slate-300;
+  }
+  .claim-label {
+    @apply text-[11px] font-medium text-slate-500 dark:text-slate-400;
+  }
+  .claim-value {
+    @apply font-semibold text-slate-800 mt-0.5 dark:text-slate-200;
+  }
+  .claim-val-row {
+    @apply font-semibold text-slate-800 mt-0.5 flex items-center gap-1 dark:text-slate-200;
+  }
+  .claim-val-highlight {
+    @apply font-semibold text-emerald-700 mt-0.5 flex items-center gap-1 dark:text-emerald-400;
+  }
+  .claim-proof-box {
+    @apply mt-3 space-y-1.5;
+  }
+  .proof-title {
+    @apply text-xs font-semibold text-slate-700 flex items-center gap-1.5 dark:text-slate-300;
+  }
+  .proof-link {
+    @apply inline-block relative;
+  }
+  .proof-badge {
+    @apply absolute bottom-2 right-2 bg-slate-900/80 text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1;
+  }
+  .claim-proof-preview {
+    @apply w-full max-w-xs h-36 object-cover rounded-lg border border-slate-200 shadow-sm hover:opacity-90 transition-opacity dark:border-slate-700;
+  }
+  .claim-actions-row {
+    @apply action-row pt-2 border-t border-slate-100 justify-end dark:border-slate-800;
+  }
+
+  /* Review Cards (Moderation) */
+  .review-card {
+    @apply rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col md:flex-row md:items-start justify-between gap-5 dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200;
+  }
+  .review-body {
+    @apply space-y-2.5 flex-1;
+  }
+  .review-header {
+    @apply flex flex-wrap items-center gap-2;
+  }
+  .review-title {
+    @apply font-display text-base font-bold text-slate-900 dark:text-white;
+  }
+  .review-quote {
+    @apply p-3 bg-surface-50 border border-slate-200 rounded-lg text-xs text-slate-700 italic font-medium dark:bg-slate-800/50 dark:border-slate-800 dark:text-slate-300;
+  }
+  .star-row {
+    @apply flex items-center text-amber-500 gap-0.5;
+  }
+
+  /* Progress & Leaderboard */
+  .stat-card {
+    @apply rounded-xl border border-slate-200 bg-white p-5 shadow-sm space-y-3 dark:bg-slate-900 dark:border-slate-800;
+  }
+  .progress-bg {
+    @apply w-full h-2 rounded-full bg-slate-100 overflow-hidden dark:bg-slate-800;
+  }
+  .progress-fill-emerald {
+    @apply h-full bg-emerald-500 rounded-full transition-all;
+  }
+  .leaderboard-item {
+    @apply p-3.5 rounded-lg border border-slate-100 bg-surface-50 flex items-center justify-between gap-3 dark:bg-slate-800/50 dark:border-slate-800/70;
+  }
+  .rank-badge {
+    @apply w-5 h-5 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] flex items-center justify-center dark:bg-slate-700 dark:text-slate-300;
+  }
+  .verified-owner-badge {
+    @apply text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 dark:bg-emerald-950 dark:border-emerald-800 dark:text-emerald-300;
+  }
+}
