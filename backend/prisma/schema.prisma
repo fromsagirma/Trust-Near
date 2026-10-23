@@ -1,0 +1,461 @@
+// TrustNear — Production Database Schema
+// PostgreSQL 15+ with PostGIS extension
+// Maps to UC-001 through UC-025 (Rev. 2 Specifications)
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [uuidOssp(map: "uuid-ossp"), postgis]
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+// -------------------------------------------------------
+// Enums
+// -------------------------------------------------------
+
+enum Role {
+  guest_promoted
+  user
+  business_owner
+  admin
+  seed_admin
+}
+
+enum LanguagePref {
+  am
+  en
+  om
+}
+
+enum BusinessStatus {
+  pending
+  published
+  rejected
+}
+
+enum Sentiment {
+  positive
+  neutral
+  negative
+}
+
+enum ReportReason {
+  fake
+  abusive
+  spam
+  other
+}
+
+enum ReportStatus {
+  pending
+  dismissed
+  removed
+}
+
+enum ConnectionStatus {
+  pending
+  accepted
+  removed
+}
+
+enum ClaimStatus {
+  pending
+  approved
+  rejected
+}
+
+enum ActivityType {
+  review_submitted
+  place_visited
+  place_saved
+  place_unsaved
+  listing_created
+}
+
+enum PromotionStatus {
+  active
+  expired
+  cancelled
+}
+
+enum NotificationType {
+  review_reply
+  claim_approved
+  claim_rejected
+  connection_request
+}
+
+enum AdminTargetType {
+  review
+  business
+  claim
+  image
+}
+
+enum AdminActionType {
+  approve
+  edit
+  remove
+  reject
+  dismiss
+}
+
+// -------------------------------------------------------
+// 1. users — UC-001, UC-002
+// -------------------------------------------------------
+model User {
+  id               String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email            String?      @unique @db.VarChar(255)
+  phone            String?      @unique @db.VarChar(32)
+  passwordHash     String       @map("password_hash") @db.VarChar(255)
+  displayName      String       @map("display_name") @db.VarChar(100)
+  profilePhotoUrl  String?      @map("profile_photo_url")
+  role             Role         @default(user)
+  languagePref     LanguagePref @default(en) @map("language_pref")
+  defaultCity      String?      @default("Addis Ababa") @map("default_city") @db.VarChar(100)
+  defaultLat       Float?       @default(9.03) @map("default_lat")
+  defaultLng       Float?       @default(38.74) @map("default_lng")
+  searchRadiusKm           Float        @default(2.4) @map("search_radius_km")
+  pushNotificationsEnabled Boolean      @default(true) @map("push_notifications_enabled")
+  emailUpdatesEnabled      Boolean      @default(true) @map("email_updates_enabled")
+  isDeleted                Boolean      @default(false) @map("is_deleted")
+  createdAt                DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt                DateTime     @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt                DateTime?    @map("deleted_at") @db.Timestamptz()
+
+  // Relationships
+  refreshTokens       RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
+  submittedListings   Business[]       @relation("SubmittedBy")
+  ownedBusinesses     Business[]       @relation("OwnedBy")
+  reviews             Review[]
+  favorites           Favorite[]
+  sentConnections     Connection[]     @relation("ConnectionRequester")
+  receivedConns       Connection[]     @relation("ConnectionAddressee")
+  removedConns        Connection[]     @relation("ConnectionRemovedBy")
+  claimsSubmitted     BusinessClaim[]  @relation("ClaimSubmittedBy")
+  claimsReviewed      BusinessClaim[]  @relation("ClaimReviewedBy")
+  promotionsBought    Promotion[]
+  notifications       Notification[]
+  adminActions        AdminAction[]
+  reviewReports       ReviewReport[]
+  activities          UserActivity[]
+  supportTickets      SupportTicket[]
+
+  @@map("users")
+}
+
+// -------------------------------------------------------
+// 2. refresh_tokens — UC-001 (session revocation)
+// -------------------------------------------------------
+model RefreshToken {
+  id        String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @unique @map("token_hash") @db.VarChar(255)
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz()
+  revokedAt DateTime? @map("revoked_at") @db.Timestamptz()
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+// -------------------------------------------------------
+// 2b. password_reset_tokens — UC-001 (password reset)
+// -------------------------------------------------------
+model PasswordResetToken {
+  id        String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @unique @map("token_hash") @db.VarChar(255)
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz()
+  usedAt    DateTime? @map("used_at") @db.Timestamptz()
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_reset_tokens")
+}
+
+// -------------------------------------------------------
+// 3. categories — UC-004 (lookup table, not enum)
+// -------------------------------------------------------
+model Category {
+  id       Int        @id @default(autoincrement()) @db.SmallInt
+  name     String     @unique @db.VarChar(50)
+  isActive Boolean    @default(true) @map("is_active")
+
+  // Relationships
+  businesses Business[]
+
+  @@map("categories")
+}
+
+// -------------------------------------------------------
+// 4. businesses — UC-006, UC-007, UC-008, UC-009, UC-011
+// -------------------------------------------------------
+model Business {
+  id                  String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name                String         @db.VarChar(150)
+  categoryId          Int            @map("category_id") @db.SmallInt
+  description         String?
+  landmarkDescription String         @map("landmark_description")
+  location            Unsupported("geography(Point,4326)")
+  phone               String?        @db.VarChar(32)
+  hours               Json?
+  googlePlaceId       String?        @unique @map("google_place_id") @db.VarChar(255)
+  status              BusinessStatus @default(pending)
+  submittedBy         String         @map("submitted_by") @db.Uuid
+  ownerId             String?        @map("owner_id") @db.Uuid
+  avgRating           Decimal        @default(0) @map("avg_rating") @db.Decimal(2, 1)
+  reviewCount         Int            @default(0) @map("review_count")
+  createdAt           DateTime       @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt           DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Relationships
+  category   Category        @relation(fields: [categoryId], references: [id])
+  submitter  User            @relation("SubmittedBy", fields: [submittedBy], references: [id])
+  owner      User?           @relation("OwnedBy", fields: [ownerId], references: [id])
+  photos     BusinessPhoto[]
+  reviews    Review[]
+  favorites  Favorite[]
+  claims     BusinessClaim[]
+  promotions Promotion[]
+  activities UserActivity[]
+
+  @@map("businesses")
+}
+
+// -------------------------------------------------------
+// 5. business_photos — UC-006, UC-008
+// -------------------------------------------------------
+model BusinessPhoto {
+  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  businessId String   @map("business_id") @db.Uuid
+  url        String
+  sortOrder  Int      @default(0) @map("sort_order") @db.SmallInt
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@map("business_photos")
+}
+
+// -------------------------------------------------------
+// 6. reviews — UC-012, UC-014, UC-024
+// -------------------------------------------------------
+model Review {
+  id             String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  businessId     String     @map("business_id") @db.Uuid
+  userId         String     @map("user_id") @db.Uuid
+  rating         Int        @db.SmallInt
+  comment        String?
+  isVerified     Boolean    @default(false) @map("is_verified")
+  ownerReply     String?    @map("owner_reply")
+  ownerRepliedAt DateTime?  @map("owner_replied_at") @db.Timestamptz()
+  sentiment      Sentiment?
+  isDeleted      Boolean    @default(false) @map("is_deleted")
+  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Relationships
+  business Business       @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reports  ReviewReport[]
+
+  @@unique([businessId, userId])
+  @@map("reviews")
+}
+
+// -------------------------------------------------------
+// 7. review_reports — UC-013
+// -------------------------------------------------------
+model ReviewReport {
+  id             String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  reviewId       String       @map("review_id") @db.Uuid
+  reporterId     String       @map("reporter_id") @db.Uuid
+  reason         ReportReason
+  status         ReportStatus @default(pending)
+  autoFlagged    Boolean      @default(false) @map("auto_flagged")
+  autoFlagReason String?      @map("auto_flag_reason")
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reporter User   @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@map("review_reports")
+}
+
+// -------------------------------------------------------
+// 8. favorites — UC-005
+// -------------------------------------------------------
+model Favorite {
+  userId     String   @map("user_id") @db.Uuid
+  businessId String   @map("business_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@id([userId, businessId])
+  @@map("favorites")
+}
+
+// -------------------------------------------------------
+// 9. connections — UC-015
+// -------------------------------------------------------
+model Connection {
+  id          String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  requesterId String           @map("requester_id") @db.Uuid
+  addresseeId String           @map("addressee_id") @db.Uuid
+  status      ConnectionStatus @default(pending)
+  removedById String?          @map("removed_by") @db.Uuid
+  respondedAt DateTime?        @map("responded_at") @db.Timestamptz()
+  createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  requester User  @relation("ConnectionRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addressee User  @relation("ConnectionAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+  removedBy User? @relation("ConnectionRemovedBy", fields: [removedById], references: [id], onDelete: SetNull)
+
+  @@unique([requesterId, addresseeId])
+  @@map("connections")
+}
+
+// -------------------------------------------------------
+// 10. business_claims — UC-010, UC-022
+// -------------------------------------------------------
+model BusinessClaim {
+  id               String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  businessId       String      @map("business_id") @db.Uuid
+  claimantId       String      @map("claimant_id") @db.Uuid
+  verificationInfo Json?       @default("{}") @map("verification_info")
+  status           ClaimStatus @default(pending)
+  reviewedBy       String?     @map("reviewed_by") @db.Uuid
+  reviewedAt       DateTime?   @map("reviewed_at") @db.Timestamptz()
+  rejectionReason  String?     @map("rejection_reason")
+  createdAt        DateTime    @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  business  Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  claimant  User     @relation("ClaimSubmittedBy", fields: [claimantId], references: [id], onDelete: Cascade)
+  adminUser User?    @relation("ClaimReviewedBy", fields: [reviewedBy], references: [id], onDelete: SetNull)
+
+  @@index([businessId])
+  @@index([claimantId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("business_claims")
+}
+
+// -------------------------------------------------------
+// 11. promotions — UC-017
+// -------------------------------------------------------
+model Promotion {
+  id          String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  businessId  String          @map("business_id") @db.Uuid
+  purchasedBy String          @map("purchased_by") @db.Uuid
+  title       String          @db.VarChar(150)
+  description String?
+  startDate   DateTime        @map("start_date") @db.Date
+  endDate     DateTime        @map("end_date") @db.Date
+  status      PromotionStatus @default(active)
+  createdAt   DateTime        @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  buyer    User     @relation(fields: [purchasedBy], references: [id], onDelete: Cascade)
+
+  @@map("promotions")
+}
+
+// -------------------------------------------------------
+// 12. notifications — UC-020
+// -------------------------------------------------------
+model Notification {
+  id        String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId    String           @map("user_id") @db.Uuid
+  type      NotificationType
+  payload   Json
+  isRead    Boolean          @default(false) @map("is_read")
+  createdAt DateTime         @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+// -------------------------------------------------------
+// 13. admin_actions — UC-021, UC-022 (audit log)
+// -------------------------------------------------------
+model AdminAction {
+  id         String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  adminId    String          @map("admin_id") @db.Uuid
+  targetType AdminTargetType @map("target_type")
+  targetId   String          @map("target_id") @db.Uuid
+  action     AdminActionType
+  reason     String?
+  createdAt  DateTime        @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  admin User @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("admin_actions")
+}
+
+// -------------------------------------------------------
+// 14. user_activities — Activity log feed
+// -------------------------------------------------------
+model UserActivity {
+  id           String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId       String       @map("user_id") @db.Uuid
+  businessId   String?      @map("business_id") @db.Uuid
+  activityType ActivityType @map("activity_type")
+  title        String       @db.VarChar(255)
+  subtitle     String?      @db.Text
+  metadata     Json?        @default("{}")
+  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Relationships
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  business Business? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("user_activities")
+}
+
+// -------------------------------------------------------
+// 15. support_tickets — Customer support ticket submissions
+// -------------------------------------------------------
+enum TicketStatus {
+  pending
+  in_review
+  resolved
+  closed
+}
+
+model SupportTicket {
+  id        String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId    String       @map("user_id") @db.Uuid
+  subject   String       @default("Customer Support Request") @db.VarChar(255)
+  message   String       @db.Text
+  status    TicketStatus @default(pending)
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime     @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("support_tickets")
+}
+
