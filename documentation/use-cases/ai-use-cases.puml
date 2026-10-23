@@ -1,0 +1,16 @@
+@startuml
+left to right direction
+actor "System / Automated Service" as system
+actor "Registered User" as user
+
+rectangle "TrustNear AI & Automated Layer" {
+  usecase "UC-011 Discover Google-sourced listings" as UC11
+  usecase "UC-024 Compute review sentiment" as UC24
+  usecase "UC-025 Receive personalized recommendations" as UC25
+}
+
+system --> UC11
+system --> UC24
+system --> UC25
+user --> UC25
+@enduml
