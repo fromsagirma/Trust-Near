@@ -1,9 +1,9 @@
 # 🗺️ TrustNear
 ### Proximity Business Discovery & Platform Trust
 
-## 👥 Neam : Firomsa Girma Worku 
-CTC 2559
-Romm 03
+##  Neam : Firomsa Girma Worku 
+## CTC 2559
+## Room 03
 
 TrustNear is a location-aware business discovery and trust-building platform that connects consumers with verified nearby local businesses. By integrating PostGIS spatial radius queries, transparent community reviews, structured merchant claim verification workflows, and administrative governance moderation, TrustNear establishes a reliable, secure ecosystem for local commerce.
 
