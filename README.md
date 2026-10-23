@@ -41,6 +41,12 @@ TrustNear is a location-aware business discovery and trust-building platform tha
 
 TrustNear provides a unified, location-aware experience across mobile and web interfaces:
 
+## Live Demo
+
+**Web Application:** [TrustNear Live Demo](https://trust-near-eight.vercel.app/)
+
+*Note: The live demo is hosted through the original team deployment and may not reflect the latest code in this repository.*
+
 - **For Consumers (Mobile App):** Discover nearby venues, search by category, calculate distances via PostGIS, read verified visitor feedback, bookmark favorites, and navigate via native maps.
 - **For Business Owners (Web Portal):** Manage store profiles, operating hours, and photo galleries, track analytics and customer reviews, claim unowned listings with verification documentation, and sponsor listings.
 - **For Platform Administrators (Web Portal):** Review and verify business ownership claims, inspect flagged reviews and moderation queues, audit system transactions, and manage category taxonomies.
