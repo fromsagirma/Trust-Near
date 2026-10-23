@@ -1,6 +1,10 @@
 # 🗺️ TrustNear
 ### Proximity Business Discovery & Platform Trust
 
+## 👥 Neam : Firomsa Girma Worku 
+CTC 2559
+Romm 03
+
 TrustNear is a location-aware business discovery and trust-building platform that connects consumers with verified nearby local businesses. By integrating PostGIS spatial radius queries, transparent community reviews, structured merchant claim verification workflows, and administrative governance moderation, TrustNear establishes a reliable, secure ecosystem for local commerce.
 
 ---
@@ -295,19 +299,6 @@ TrustNear implements **25 core system use cases** formally modeled in `documenta
 
 ---
 
-## 👥 Team & Original Attribution
-
-TrustNear was originally conceived and engineered by our collaborative five-member project team:
-
-| Contributor | Project Role & Primary Responsibilities |
-|---|---|
-| **Firomsa Girma Worku** *(Presenter & Repository Owner)* | **Platform Governance Backend** — Owner claim verification pipeline, transactional notification service, administrative security controls, and repository release management. |
-| **Habtamu Befekadu** | **Core Backend API** — Express modular routing architecture, PostGIS geospatial radius search algorithms, and database connection pooling. |
-| **Getachew Eyayu Adugna** | **User Mobile Frontend** — Cross-platform Flutter mobile UI, Riverpod state integration, geolocation tracking, and external map routing. |
-| **Eyob Tamiru Sime** | **Business Owner Web Portal** — React merchant management dashboard, business profile and hours editor, and listing promotion configuration. |
-| **Ermiyas Getachew** | **Admin Governance Web Portal** — Administrative dashboard UI, business claim verification queues, review moderation, and category management. |
-
----
 
 ## 📄 License
 
