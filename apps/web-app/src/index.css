@@ -1,0 +1,96 @@
+@import './shared/styles/index.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+
+  /* Global text selection — readable on any background */
+  ::selection {
+    background-color: #1d4ed8;
+    color: #ffffff;
+  }
+  ::-moz-selection {
+    background-color: #1d4ed8;
+    color: #ffffff;
+  }
+}
+
+/* TrustNear Brand Classes */
+.bg-trust-blue {
+  background-color: #1E40AF !important;
+}
+.bg-amber-gold {
+  background-color: #F59E0B !important;
+}
+.text-trust-blue {
+  color: #1E40AF !important;
+}
+.text-amber-gold {
+  color: #F59E0B !important;
+}
+.text-slate-navy {
+  color: #0F172A !important;
+}
+.text-cool-grey {
+  color: #64748B !important;
+}
+.bg-slate-navy {
+  background-color: #0F172A !important;
+}
+.bg-slate-white {
+  background-color: #F8FAFC !important;
+}
+.border-trust-blue {
+  border-color: #1E40AF !important;
+}
+.border-amber-gold {
+  border-color: #F59E0B !important;
+}
+
+@layer components {
+  .portal-root {
+    @apply min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center p-6;
+  }
+  .portal-card {
+    @apply max-w-xl w-full bg-slate-800 rounded-2xl shadow-xl p-8 border border-slate-700 text-center;
+  }
+  .portal-badge {
+    @apply inline-block px-3 py-1 bg-indigo-500/20 text-indigo-400 text-xs font-semibold rounded-full uppercase tracking-wider mb-4 border border-indigo-500/30;
+  }
+  .portal-title {
+    @apply text-4xl font-extrabold tracking-tight mb-2;
+  }
+  .portal-desc {
+    @apply text-slate-400 mb-6 text-sm;
+  }
+  .portal-grid {
+    @apply grid grid-cols-3 gap-3 text-left text-xs;
+  }
+  .portal-link-indigo {
+    @apply bg-slate-700/50 p-3 rounded-lg border border-slate-600/50 hover:border-indigo-500/50 hover:bg-slate-700 transition block;
+  }
+  .portal-link-amber {
+    @apply bg-slate-700/50 p-3 rounded-lg border border-slate-600/50 hover:border-amber-500/50 hover:bg-slate-700 transition block;
+  }
+  .portal-link-emerald {
+    @apply bg-slate-700/50 p-3 rounded-lg border border-slate-600/50 hover:border-emerald-500/50 hover:bg-slate-700 transition block;
+  }
+  .link-title-indigo {
+    @apply text-indigo-400 font-semibold mb-1;
+  }
+  .link-title-amber {
+    @apply text-amber-400 font-semibold mb-1;
+  }
+  .link-title-emerald {
+    @apply text-emerald-400 font-semibold mb-1;
+  }
+  .link-subtitle {
+    @apply text-slate-300;
+  }
+}
