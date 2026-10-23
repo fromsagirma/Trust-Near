@@ -44,6 +44,7 @@ TrustNear provides a unified, location-aware experience across mobile and web in
 ## Live Demo
 
 **Web Application:** [TrustNear Live Demo](https://trust-near-eight.vercel.app/)
+**Web Application Backend:**https://trust-near.onrender.com/
 
 *Note: The live demo is hosted through the original team deployment and may not reflect the latest code in this repository.*
 
