@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+actor "System Admin" as admin
+
+rectangle "Admin Web Module (`apps/web-app/src/admin`)" {
+  usecase "UC-010 Review ownership claims" as UC10
+  usecase "UC-013 Moderate reported reviews" as UC13
+  usecase "UC-017 Administer promoted placement" as UC17
+  usecase "UC-021 Moderate flagged content" as UC21
+  usecase "UC-022 Approve business listings and claims" as UC22
+  usecase "UC-023 View platform analytics" as UC23
+}
+
+admin --> UC10
+admin --> UC13
+admin --> UC17
+admin --> UC21
+admin --> UC22
+admin --> UC23
+@enduml

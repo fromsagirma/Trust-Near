@@ -1,0 +1,29 @@
+@startuml
+class User {
+  +String id
+  +String email
+  +String name
+  +Role role
+  +DateTime createdAt
+}
+
+class Business {
+  +String id
+  +String name
+  +String category
+  +Float latitude
+  +Float longitude
+  +Boolean verified
+}
+
+class Review {
+  +String id
+  +Int rating
+  +String comment
+  +DateTime createdAt
+}
+
+User "1" -- "*" Review : writes
+Business "1" -- "*" Review : receives
+User "1" -- "*" Business : owns >
+@enduml

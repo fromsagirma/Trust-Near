@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+actor "Business Owner" as owner
+
+rectangle "Business Owner Web Module (`apps/web-app/src/owner`)" {
+  usecase "UC-006 Create a business listing" as UC6
+  usecase "UC-007 Describe location by landmark" as UC7
+  usecase "UC-009 Manage listing from owner dashboard" as UC9
+  usecase "UC-010 Claim an existing business listing" as UC10
+  usecase "UC-017 Purchase promoted placement" as UC17
+  usecase "UC-020 Receive notifications" as UC20
+}
+
+owner --> UC6
+owner --> UC7
+owner --> UC9
+owner --> UC10
+owner --> UC17
+owner --> UC20
+@enduml

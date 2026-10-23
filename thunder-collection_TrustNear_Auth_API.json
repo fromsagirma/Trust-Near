@@ -1,0 +1,234 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "TrustNear - Authentication & Security API",
+  "collectionId": "trustnear-auth-collection",
+  "dateExported": "2026-08-16",
+  "version": "1.1",
+  "folders": [
+    {
+      "_id": "folder_auth",
+      "name": "1. Authentication (TN-001)",
+      "containerId": "",
+      "created": "2026-08-16T15:00:00.000Z"
+    },
+    {
+      "_id": "folder_pwd",
+      "name": "2. Password Reset",
+      "containerId": "",
+      "created": "2026-08-16T15:00:00.000Z"
+    },
+    {
+      "_id": "folder_health",
+      "name": "3. System Health",
+      "containerId": "",
+      "created": "2026-08-16T15:00:00.000Z"
+    }
+  ],
+  "requests": [
+    {
+      "_id": "req_health",
+      "colId": "trustnear-auth-collection",
+      "containerId": "folder_health",
+      "name": "Check Server Health",
+      "url": "http://localhost:5000/api/health",
+      "method": "GET",
+      "sortNum": 10000,
+      "created": "2026-08-16T15:00:00.000Z",
+      "modified": "2026-08-16T15:00:00.000Z",
+      "headers": []
+    },
+    {
+      "_id": "req_admin_login",
+      "colId": "trustnear-auth-collection",
+      "containerId": "folder_auth",
+      "name": "Login as Seed Admin",
+      "url": "http://localhost:5000/api/auth/login",
+      "method": "POST",
+      "sortNum": 20000,
+      "created": "2026-08-16T15:00:00.000Z",
+      "modified": "2026-08-16T15:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"emailOrPhone\": \"admin@trustnear.com\",\n  \"password\": \"Password123!\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_owner_login",
+      "colId": "trustnear-auth-collection",
+      "containerId": "folder_auth",
+      "name": "Login as Business Owner",
+      "url": "http://localhost:5000/api/auth/login",
+      "method": "POST",
+      "sortNum": 30000,
+      "created": "2026-08-16T15:00:00.000Z",
+      "modified": "2026-08-16T15:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"emailOrPhone\": \"owner@trustnear.com\",\n  \"password\": \"Password123!\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_user_login",
+      "colId": "trustnear-auth-collection",
+      "containerId": "folder_auth",
+      "name": "Login as Regular User",
+      "url": "http://localhost:5000/api/auth/login",
+      "method": "POST",
+      "sortNum": 40000,
+      "created": "2026-08-16T15:00:00.000Z",
+      "modified": "2026-08-16T15:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"emailOrPhone\": \"user@trustnear.com\",\n  \"password\": \"Password123!\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_register",
+      "colId": "trustnear-auth-collection",
+      "containerId": "folder_auth",
+      "name": "Register New User",
+      "url": "http://localhost:5000/api/auth/register",
+      "method": "POST",
+      "sortNum": 50000,
+      "created": "2026-08-16T15:00:00.000Z",
+      "modified": "2026-08-16T15:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"displayName\": \"Kidus Haile\",\n  \"email\": \"kidus.haile@example.com\",\n  \"phone\": \"+251911998877\",\n  \"password\": \"MySecretPass123!\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_get_me",
+      "colId": "trustnear-auth-collection",
+      "containerId": "folder_auth",
+      "name": "Get Current Profile (GET /me)",
+      "url": "http://localhost:5000/api/auth/me",
+      "method": "GET",
+      "sortNum": 60000,
+      "created": "2026-08-16T15:00:00.000Z",
+      "modified": "2026-08-16T15:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer YOUR_ACCESS_TOKEN_HERE"
+        }
+      ]
+    },
+    {
+      "_id": "req_refresh",
+      "colId": "trustnear-auth-collection",
+      "containerId": "folder_auth",
+      "name": "Refresh Token Rotation",
+      "url": "http://localhost:5000/api/auth/refresh",
+      "method": "POST",
+      "sortNum": 70000,
+      "created": "2026-08-16T15:00:00.000Z",
+      "modified": "2026-08-16T15:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"refreshToken\": \"PASTE_YOUR_REFRESH_TOKEN_HERE\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_logout",
+      "colId": "trustnear-auth-collection",
+      "containerId": "folder_auth",
+      "name": "Logout (Revoke Refresh Token)",
+      "url": "http://localhost:5000/api/auth/logout",
+      "method": "POST",
+      "sortNum": 80000,
+      "created": "2026-08-16T15:00:00.000Z",
+      "modified": "2026-08-16T15:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"refreshToken\": \"PASTE_YOUR_REFRESH_TOKEN_HERE\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_forgot_pwd",
+      "colId": "trustnear-auth-collection",
+      "containerId": "folder_pwd",
+      "name": "Forgot Password Request",
+      "url": "http://localhost:5000/api/auth/forgot-password",
+      "method": "POST",
+      "sortNum": 90000,
+      "created": "2026-08-16T15:00:00.000Z",
+      "modified": "2026-08-16T15:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"admin@trustnear.com\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_reset_pwd",
+      "colId": "trustnear-auth-collection",
+      "containerId": "folder_pwd",
+      "name": "Reset Password with Token",
+      "url": "http://localhost:5001/api/auth/reset-password",
+      "method": "POST",
+      "sortNum": 100000,
+      "created": "2026-08-16T15:00:00.000Z",
+      "modified": "2026-08-16T15:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"token\": \"PASTE_RESET_TOKEN_FROM_SERVER_CONSOLE\",\n  \"newPassword\": \"BrandNewPassword123!\"\n}",
+        "form": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+@startuml
+left to right direction
+actor "Guest User" as guest
+actor "Registered User" as user
+
+rectangle "User Mobile App (Developer 1 — Flutter)" {
+  usecase "UC-001 Register and log in" as UC1
+  usecase "UC-002 Manage profile and delete account" as UC2
+  usecase "UC-003 Search for nearby businesses" as UC3
+  usecase "UC-004 Search by name or filter by category" as UC4
+  usecase "UC-005 Save and remove favorites" as UC5
+  usecase "UC-007 Describe location by landmark" as UC7
+  usecase "UC-008 View business details" as UC8
+  usecase "UC-012 Rate and review a business" as UC12
+  usecase "UC-013 Report a review" as UC13
+  usecase "UC-014 Earn a verified visit badge" as UC14
+  usecase "UC-015 Build a connection network" as UC15
+  usecase "UC-016 Share place via in-app chat" as UC16
+  usecase "UC-018 Switch interface language" as UC18
+  usecase "UC-019 Browse on low-bandwidth connection" as UC19
+  usecase "UC-020 Receive notifications" as UC20
+  usecase "UC-025 Receive personalized recommendations" as UC25
+}
+
+guest --> UC1
+guest --> UC3
+guest --> UC4
+guest --> UC8
+guest --> UC18
+guest --> UC19
+
+user --> UC1
+user --> UC2
+user --> UC3
+user --> UC4
+user --> UC5
+user --> UC7
+user --> UC8
+user --> UC12
+user --> UC13
+user --> UC14
+user --> UC15
+user --> UC16
+user --> UC18
+user --> UC19
+user --> UC20
+user --> UC25
+@enduml
