@@ -1,0 +1,96 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment variables & secrets
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+*.env
+*.env.*
+!.env.example
+!**/.env.example
+!.env.*.example
+!**/.env.*.example
+
+# Credentials & Keystores
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore
+key.properties
+google-services.json
+GoogleService-Info.plist
+
+# Build output
+dist/
+build/
+out/
+.next/
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+apps/user-app/build/
+apps/user-app/.dart_tool/
+apps/user-app/.flutter-plugins
+apps/user-app/.flutter-plugins-dependencies
+apps/user-app/.pub/
+apps/user-app/.pub-cache/
+apps/user-app/android/.gradle/
+apps/user-app/android/local.properties
+apps/user-app/android/app/debug/
+apps/user-app/android/app/profile/
+apps/user-app/android/app/release/
+apps/user-app/ios/Flutter/.last_build_id
+apps/user-app/ios/Pods/
+apps/user-app/windows/flutter/ephemeral/
+apps/user-app/linux/flutter/ephemeral/
+apps/user-app/macos/Flutter/ephemeral/
+
+# Binaries & packages
+*.apk
+*.aab
+*.aar
+*.ipa
+*.app
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Databases & local storage
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+
+# IDE & editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing & coverage
+coverage/
+.nyc_output/
